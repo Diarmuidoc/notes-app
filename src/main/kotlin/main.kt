@@ -87,3 +87,10 @@ fun numberOfArchivedNotes(): Int {
 fun numberOfActiveNotes(): Int {
     //helper method to determine how many active notes there are
 }
+
+fun listNotesBySelectedPriority(priority: Int): String {
+}
+
+fun numberOfNotesByPriority(): Int {
+    //helper method to determine how many notes there are of a specific priority
+}
