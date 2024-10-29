@@ -74,23 +74,23 @@ fun exitApp(){
     exit(0)
 }
 
-fun listActiveNotes(): String {
-}
+//fun listActiveNotes(): String {
+//}
+//
+//fun listArchivedNotes(): String {
+//}
 
-fun listArchivedNotes(): String {
-}
-
-fun numberOfArchivedNotes(): Int {
-    //helper method to determine how many archived notes there are
-}
-
-fun numberOfActiveNotes(): Int {
-    //helper method to determine how many active notes there are
-}
-
-fun listNotesBySelectedPriority(priority: Int): String {
-}
-
-fun numberOfNotesByPriority(): Int {
-    //helper method to determine how many notes there are of a specific priority
-}
+//fun numberOfArchivedNotes(): Int {
+//    //helper method to determine how many archived notes there are
+//}
+//
+//fun numberOfActiveNotes(): Int {
+//    //helper method to determine how many active notes there are
+//}
+//
+//fun listNotesBySelectedPriority(priority: Int): String {
+//}
+//
+//fun numberOfNotesByPriority(): Int {
+//    //helper method to determine how many notes there are of a specific priority
+//}
