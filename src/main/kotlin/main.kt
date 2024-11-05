@@ -9,6 +9,7 @@ import java.lang.System.exit
 private val logger = KotlinLogging.logger {}
 private val noteAPI = NoteAPI()
 
+
 fun main() {
     runMenu()
 }
@@ -61,8 +62,27 @@ fun listNotes(){
     println(noteAPI.listAllNotes())
 }
 
-fun updateNote(){
-    logger.info {"updateNote() function invoked "}
+fun updateNote() {
+    //logger.info { "updateNotes() function invoked" }
+    listNotes()
+    if (noteAPI.numberOfNotes() > 0) {
+        //only ask the user to choose the note if notes exist
+        val indexToUpdate = readNextInt("Enter the index of the note to update: ")
+        if (noteAPI.isValidIndex(indexToUpdate)) {
+            val noteTitle = readNextLine("Enter a title for the note: ")
+            val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
+            val noteCategory = readNextLine("Enter a category for the note: ")
+
+            //pass the index of the note and the new note details to NoteAPI for updating and check for success.
+            if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, false))){
+                println("Update Successful")
+            } else {
+                println("Update Failed")
+            }
+        } else {
+            println("There are no notes for this index number")
+        }
+    }
 }
 
 fun deleteNote(){
@@ -85,4 +105,6 @@ fun exitApp(){
     println("Exiting...Bye")
     exit(0)
 }
+
+
 
