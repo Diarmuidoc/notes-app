@@ -1,13 +1,15 @@
 import controllers.NoteAPI
 import io.github.oshai.kotlinlogging.KotlinLogging
 import models.Note
+import persistence.XMLSerializer
 import utils.readNextInt
 import utils.readNextLine
+import java.io.File
 import java.lang.System.exit
 
 
 private val logger = KotlinLogging.logger {}
-private val noteAPI = NoteAPI()
+private val noteAPI = NoteAPI(XMLSerializer(File("notes.xml")))
 
 
 fun main() {
@@ -104,6 +106,22 @@ fun deleteNote(){
 fun exitApp(){
     println("Exiting...Bye")
     exit(0)
+}
+
+fun save() {
+    try {
+        noteAPI.store()
+    } catch (e: Exception) {
+        System.err.println("Error writing to file: $e")
+    }
+}
+
+fun load() {
+    try {
+        noteAPI.load()
+    } catch (e: Exception) {
+        System.err.println("Error reading from file: $e")
+    }
 }
 
 
