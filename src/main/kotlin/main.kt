@@ -133,14 +133,6 @@ fun listActiveNotes() {
     println(noteAPI.listActiveNotes())
 }
 
-fun listAllNotes() {
-    println(noteAPI.listAllNotes())
-}
-
-fun listArchivedNotes() {
-    println(noteAPI.listArchivedNotes())
-}
-
 fun archiveNote() {
     listActiveNotes()
     if (noteAPI.numberOfActiveNotes() > 0) {
@@ -174,5 +166,13 @@ fun load() {
 fun exitApp() {
     println("Exiting...bye")
     exit(0)
+}
+
+fun listAllNotes() {
+    println(noteAPI.listAllNotes())
+}
+
+fun listArchivedNotes() {
+    println(noteAPI.listArchivedNotes())
 }
 
