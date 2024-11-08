@@ -3,8 +3,9 @@ package controllers
 import models.Note
 import persistence.Serializer
 
-class NoteAPI(serializerType: Serializer) {
+class NoteAPI(serializerType: Serializer){
 
+    private var serializer: Serializer = serializerType
     private var notes = ArrayList<Note>()
 
     fun add(note: Note): Boolean {
@@ -23,21 +24,6 @@ class NoteAPI(serializerType: Serializer) {
         }
     }
 
-    fun numberOfNotes(): Int {
-        return notes.size
-    }
-
-    fun findNote(index: Int): Note? {
-        return if (isValidListIndex(index, notes)) {
-            notes[index]
-        } else null
-    }
-
-    //utility method to determine if an index is valid in a list.
-    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
-        return (index >= 0 && index < list.size)
-    }
-
     fun listActiveNotes(): String {
         return if (numberOfActiveNotes() == 0) {
             "No active notes stored"
@@ -51,7 +37,6 @@ class NoteAPI(serializerType: Serializer) {
             listOfActiveNotes
         }
     }
-
     fun listArchivedNotes(): String {
         return if (numberOfArchivedNotes() == 0) {
             "No archived notes stored"
@@ -64,26 +49,6 @@ class NoteAPI(serializerType: Serializer) {
             }
             listOfArchivedNotes
         }
-    }
-
-    fun numberOfArchivedNotes(): Int {
-        var counter = 0
-        for (note in notes) {
-            if (note.isNoteArchived) {
-                counter++
-            }
-        }
-        return counter
-    }
-
-    fun numberOfActiveNotes(): Int {
-        var counter = 0
-        for (note in notes) {
-            if (!note.isNoteArchived) {
-                counter++
-            }
-        }
-        return counter
     }
 
     fun listNotesBySelectedPriority(priority: Int): String {
@@ -106,22 +71,11 @@ class NoteAPI(serializerType: Serializer) {
         }
     }
 
-    fun numberOfNotesByPriority(priority: Int): Int {
-        var counter = 0
-        for (note in notes) {
-            if (note.notePriority == priority) {
-                counter++
-            }
-        }
-        return counter
-    }
-
     fun deleteNote(indexToDelete: Int): Note? {
         return if (isValidListIndex(indexToDelete, notes)) {
             notes.removeAt(indexToDelete)
         } else null
     }
-
 
     fun updateNote(indexToUpdate: Int, note: Note?): Boolean {
         //find the note object by the index number
@@ -139,6 +93,65 @@ class NoteAPI(serializerType: Serializer) {
         return false
     }
 
+    fun archiveNote(indexToArchive: Int): Boolean {
+        if (isValidIndex(indexToArchive)) {
+            val noteToArchive = notes[indexToArchive]
+            if (!noteToArchive.isNoteArchived) {
+                noteToArchive.isNoteArchived = true
+                return true
+            }
+        }
+        return false
+    }
+
+    fun numberOfNotes(): Int {
+        return notes.size
+    }
+
+    fun numberOfArchivedNotes(): Int {
+        //return notes.stream().filter { obj: Note -> obj.isNoteArchived }.count().toInt()
+        var counter = 0
+        for (note in notes) {
+            if (note.isNoteArchived) {
+                counter++
+            }
+        }
+        return counter
+    }
+
+    fun numberOfActiveNotes(): Int {
+        //return notes.stream().filter { p: Note -> !p.isNoteArchived }.count().toInt()
+        var counter = 0
+        for (note in notes) {
+            if (!note.isNoteArchived) {
+                counter++
+            }
+        }
+        return counter
+    }
+
+    fun numberOfNotesByPriority(priority: Int): Int {
+        //return notes.stream().filter { p: Note -> p.notePriority == priority }.count().toInt()
+        var counter = 0
+        for (note in notes) {
+            if (note.notePriority == priority) {
+                counter++
+            }
+        }
+        return counter
+    }
+
+    fun findNote(index: Int): Note? {
+        return if (isValidListIndex(index, notes)) {
+            notes[index]
+        } else null
+    }
+
+    //utility method to determine if an index is valid in a list.
+    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
+        return (index >= 0 && index < list.size)
+    }
+
     fun isValidIndex(index: Int) :Boolean{
         return isValidListIndex(index, notes);
     }
@@ -152,4 +165,5 @@ class NoteAPI(serializerType: Serializer) {
     fun store() {
         serializer.write(notes)
     }
+
 }
